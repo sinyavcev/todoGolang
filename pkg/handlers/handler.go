@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sinyavcev/todoGolang/service"
+	"github.com/sinyavcev/todoGolang/pkg/service"
 )
 
 type Handler struct {
@@ -19,7 +19,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		todos.POST("/", h.createTask)
 		todos.GET("/", h.getAllTask)
-		todos.GET("/:id", h.getTaskById)
 		todos.PUT("/:id", h.updateTask)
 		todos.DELETE("/:id", h.deleteTask)
 	}

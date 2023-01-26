@@ -1,15 +1,15 @@
 package service
 
 import (
-	"github.com/sinyavcev/todoGolang/repository"
-	"github.com/sinyavcev/todoGolang/repository/models"
+	"github.com/sinyavcev/todoGolang/pkg/repository"
+	"github.com/sinyavcev/todoGolang/pkg/repository/models"
 )
 
 type Todo interface {
 	Create(todo models.Todo) (uint, error)
 	GetAll() ([]models.Todo, error)
-	//GetById(todoId int) (models.Todo, error)
-	//Delete(todoId int) error
+	Update(todoId int, todo models.UpdateTodoInput) error
+	Delete(todoId int) error
 }
 
 type Service struct {

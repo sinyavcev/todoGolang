@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sinyavcev/todoGolang/repository/models"
+	"github.com/sinyavcev/todoGolang/pkg/repository/models"
 	"net/http"
+	"strconv"
 )
 
 func (h *Handler) createTask(c *gin.Context) {
@@ -41,12 +42,42 @@ func (h *Handler) getAllTask(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getTaskById(c *gin.Context) {
-}
-
 func (h *Handler) updateTask(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	var input models.UpdateTodoInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.Todo.Update(id, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{"ok"})
 }
 
 func (h *Handler) deleteTask(c *gin.Context) {
 
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.Todo.Delete(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "ok",
+	})
 }

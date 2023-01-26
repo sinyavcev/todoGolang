@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/sinyavcev/todoGolang/repository/models"
+	"github.com/sinyavcev/todoGolang/pkg/repository/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
